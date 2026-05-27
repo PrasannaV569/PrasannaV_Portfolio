@@ -99,7 +99,7 @@ switchSection(isValidHash ? initialHash : 'home');
 // ─────────────────────────────────────────────────────────────
 // 3. NAV LINK & CTA CLICKS
 // ─────────────────────────────────────────────────────────────
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+document.querySelectorAll('a[href^="#"]:not(.cert-lightbox-download)').forEach(anchor => {
   anchor.addEventListener('click', (e) => {
     e.preventDefault();
     let targetId;
@@ -172,53 +172,57 @@ function handleFormSubmit(e) {
 // Keyboard Navigation custom switching removed as sections are now isolated tabs.
 
 // ─────────────────────────────────────────────────────────────
-// 7. CERTIFICATES CAROUSEL
+// 7. CERTIFICATES GALLERY LIGHTBOX
 // ─────────────────────────────────────────────────────────────
-const certNamesList = document.getElementById('cert-names-list');
-const certCarouselTrack = document.getElementById('cert-carousel-track');
-const certPrevBtn = document.getElementById('cert-prev-btn');
-const certNextBtn = document.getElementById('cert-next-btn');
+(function initCertLightbox() {
+  const certLightbox   = document.getElementById('cert-lightbox');
+  const certLightboxImg    = document.getElementById('cert-lightbox-img');
+  const certLightboxTitle  = document.getElementById('cert-lightbox-title');
+  const certLightboxClose  = document.getElementById('cert-lightbox-close');
+  const certLightboxBdrop  = document.getElementById('cert-lightbox-backdrop');
+  const certLightboxDl     = document.getElementById('cert-lightbox-download');
 
-if (certNamesList && certCarouselTrack) {
-  const nameBtns = certNamesList.querySelectorAll('.cert-name-btn');
-  const totalSlides = nameBtns.length;
-  let currentCertIndex = 0;
+  if (!certLightbox) return;
 
-  function updateCertCarousel(index) {
-    // Wrap around logic
-    if (index < 0) index = totalSlides - 1;
-    if (index >= totalSlides) index = 0;
-    
-    currentCertIndex = index;
-    
-    // Update track position
-    certCarouselTrack.style.transform = `translateX(-${currentCertIndex * 100}%)`;
-    
-    // Update buttons
-    nameBtns.forEach((btn, i) => {
-      if (i === currentCertIndex) {
-        btn.classList.add('active');
-      } else {
-        btn.classList.remove('active');
-      }
-    });
+  function openCertLightbox(src, title) {
+    certLightboxImg.src   = src;
+    certLightboxImg.alt   = title;
+    certLightboxTitle.textContent = title;
+    certLightboxDl.href   = src;
+    certLightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
   }
 
-  // Click on names
-  nameBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      updateCertCarousel(parseInt(btn.dataset.index, 10));
+  function closeCertLightbox() {
+    certLightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // View buttons inside each card
+  document.querySelectorAll('.cert-view-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openCertLightbox(btn.dataset.src, btn.dataset.title);
     });
   });
 
-  // Arrows
-  if (certPrevBtn) {
-    certPrevBtn.addEventListener('click', () => updateCertCarousel(currentCertIndex - 1));
-  }
-  if (certNextBtn) {
-    certNextBtn.addEventListener('click', () => updateCertCarousel(currentCertIndex + 1));
-  }
-}
+  // Click card body also opens lightbox
+  document.querySelectorAll('.cert-gallery-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const btn = card.querySelector('.cert-view-btn');
+      if (btn) openCertLightbox(btn.dataset.src, btn.dataset.title);
+    });
+  });
+
+  if (certLightboxClose) certLightboxClose.addEventListener('click', closeCertLightbox);
+  if (certLightboxBdrop) certLightboxBdrop.addEventListener('click', closeCertLightbox);
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeCertLightbox();
+  });
+})();
+
 
 // ─────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────
@@ -414,3 +418,125 @@ document.querySelectorAll('.project-image-wrapper').forEach(wrapper => {
   });
 });
 
+
+// ─────────────────────────────────────────────────────────────
+// 11. DATA ANALYSIS — SQL Code Tab Switcher
+// ─────────────────────────────────────────────────────────────
+(function initSQLTabs() {
+  const tabTrigger  = document.getElementById('da-tab-trigger');
+  const tabWindow   = document.getElementById('da-tab-window');
+  const codeTrigger = document.getElementById('da-code-trigger');
+  const codeWindow  = document.getElementById('da-code-window');
+
+  if (!tabTrigger || !tabWindow) return;
+
+  tabTrigger.addEventListener('click', () => {
+    tabTrigger.classList.add('active');
+    tabWindow.classList.remove('active');
+    codeTrigger.style.display = '';
+    codeWindow.style.display = 'none';
+  });
+
+  tabWindow.addEventListener('click', () => {
+    tabWindow.classList.add('active');
+    tabTrigger.classList.remove('active');
+    codeWindow.style.display = '';
+    codeTrigger.style.display = 'none';
+  });
+})();
+
+// ─────────────────────────────────────────────────────────────
+// 12. DATA ANALYSIS — Fraud Simulator
+// ─────────────────────────────────────────────────────────────
+(function initFraudSimulator() {
+  const runBtn = document.getElementById('da-sim-run');
+  const t1     = document.getElementById('da-sim-t1');
+  const t2     = document.getElementById('da-sim-t2');
+  const msg    = document.getElementById('da-sim-msg');
+
+  if (!runBtn || !t1 || !t2) return;
+
+  function resetSim() {
+    [t1, t2].forEach(row => {
+      row.className = 'da-sim-row da-sim-idle';
+      row.querySelector('.da-sim-indicator').className = 'da-sim-indicator idle';
+      row.querySelector('.da-sim-status').textContent = 'Waiting...';
+    });
+    msg.textContent = '';
+    runBtn.disabled = false;
+    runBtn.textContent = '▶ Run Simulation';
+  }
+
+  function runSim() {
+    resetSim();
+    runBtn.disabled = true;
+    runBtn.textContent = '⏳ Running...';
+
+    // Step 1 — Delhi approved after 800ms
+    setTimeout(() => {
+      t1.className = 'da-sim-row approved';
+      t1.querySelector('.da-sim-indicator').className = 'da-sim-indicator ok';
+      t1.querySelector('.da-sim-status').textContent = '✓ APPROVED';
+    }, 800);
+
+    // Step 2 — New York blocked after 1800ms
+    setTimeout(() => {
+      t2.className = 'da-sim-row blocked';
+      t2.querySelector('.da-sim-indicator').className = 'da-sim-indicator bad';
+      t2.querySelector('.da-sim-status').textContent = '🚨 BLOCKED';
+    }, 1800);
+
+    // Step 3 — Message + re-enable button after 2400ms
+    setTimeout(() => {
+      msg.textContent = '⚡ Impossible Velocity: 2 continents in 3 min — Trigger fired!';
+      runBtn.disabled = false;
+      runBtn.textContent = '↺ Re-run';
+    }, 2400);
+  }
+
+  runBtn.addEventListener('click', runSim);
+})();
+
+// ─────────────────────────────────────────────────────────────
+// 13. DATA ANALYSIS — Power BI Page Tab Switcher + Lightbox
+// ─────────────────────────────────────────────────────────────
+(function initPBITabs() {
+  const pbiTabs  = document.querySelectorAll('.da-pbi-tab');
+  const pbiPages = document.querySelectorAll('.da-pbi-page');
+
+  if (!pbiTabs.length) return;
+
+  pbiTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.page;
+      pbiTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      pbiPages.forEach(p => {
+        if (p.id === `da-pbi-page-${target}`) {
+          p.style.display = '';
+        } else {
+          p.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Power BI expand buttons — wire into the existing lightbox
+  document.querySelectorAll('.da-pbi-expand').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!lightbox || !lightboxImg) return;
+
+      const imgs = btn.dataset.imgs.split('|');
+      currentLightboxImgs = imgs.map(src => ({ src }));
+      currentLightboxIndex = parseInt(btn.dataset.index, 10);
+
+      lightboxImg.src = currentLightboxImgs[currentLightboxIndex].src;
+
+      if (lightboxPrev) lightboxPrev.style.display = imgs.length > 1 ? 'flex' : 'none';
+      if (lightboxNext) lightboxNext.style.display = imgs.length > 1 ? 'flex' : 'none';
+
+      lightbox.classList.add('active');
+    });
+  });
+})();
