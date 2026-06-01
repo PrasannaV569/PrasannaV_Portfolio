@@ -87,6 +87,43 @@
     <span></span><span></span><span></span>
   </button>
 
+  <!-- ─── Mobile Top Navigation (Mobile Only) ─── -->
+  <nav class="mobile-top-nav" id="mobile-top-nav" aria-label="Mobile Navigation">
+    <div class="mobile-nav-brand">
+      <span class="mobile-nav-name">Prasanna<span>.</span></span>
+    </div>
+    <div class="mobile-nav-scroll-area">
+      <a href="#home" class="mobile-nav-link active" data-section="home">
+        <span class="mobile-nav-icon" style="-webkit-mask-image: url('https://api.iconify.design/lucide:home.svg'); mask-image: url('https://api.iconify.design/lucide:home.svg');"></span>
+        Home
+      </a>
+      <a href="#skills" class="mobile-nav-link" data-section="skills">
+        <span class="mobile-nav-icon" style="-webkit-mask-image: url('https://api.iconify.design/lucide:wrench.svg'); mask-image: url('https://api.iconify.design/lucide:wrench.svg');"></span>
+        Skills
+      </a>
+      <a href="#certificates" class="mobile-nav-link" data-section="certificates">
+        <span class="mobile-nav-icon" style="-webkit-mask-image: url('https://api.iconify.design/lucide:file-badge.svg'); mask-image: url('https://api.iconify.design/lucide:file-badge.svg');"></span>
+        Certs
+      </a>
+      <a href="#projects" class="mobile-nav-link" data-section="projects">
+        <span class="mobile-nav-icon" style="-webkit-mask-image: url('https://api.iconify.design/lucide:folder.svg'); mask-image: url('https://api.iconify.design/lucide:folder.svg');"></span>
+        Projects
+      </a>
+      <a href="#data-analysis" class="mobile-nav-link" data-section="data-analysis">
+        <span class="mobile-nav-icon" style="-webkit-mask-image: url('https://api.iconify.design/lucide:bar-chart-3.svg'); mask-image: url('https://api.iconify.design/lucide:bar-chart-3.svg');"></span>
+        Data
+      </a>
+      <a href="#internships" class="mobile-nav-link" data-section="internships">
+        <span class="mobile-nav-icon" style="-webkit-mask-image: url('https://api.iconify.design/lucide:graduation-cap.svg'); mask-image: url('https://api.iconify.design/lucide:graduation-cap.svg');"></span>
+        Internships
+      </a>
+      <a href="#contact" class="mobile-nav-link" data-section="contact">
+        <span class="mobile-nav-icon" style="-webkit-mask-image: url('https://api.iconify.design/lucide:send.svg'); mask-image: url('https://api.iconify.design/lucide:send.svg');"></span>
+        Contact
+      </a>
+    </div>
+  </nav>
+
   <!-- ─── Main Content ─── -->
   <main class="content" id="content">
 
@@ -842,7 +879,8 @@
         <h2 class="section-title">Projects</h2>
         <p class="section-body">A selection of projects where I used my knowledge and skills to build something new.</p>
 
-        <!-- Featured Project: Cortex -->
+        <!-- Featured Project: Cortex — DESKTOP VERSION (hidden on mobile) -->
+        <div class="desktop-cortex">
         <div class="featured-project-card">
           <div class="featured-content">
             <span class="card-badge">FEATURED PROJECT</span>
@@ -909,6 +947,93 @@
             </div>
           </div>
         </div>
+        </div><!-- end .desktop-cortex -->
+
+        <!-- Featured Project: Cortex — MOBILE VERSION (shown only on mobile) -->
+        <div class="mobile-cortex">
+          <div class="mobile-cortex-header">
+            <span class="mobile-cortex-badge">⭐ FEATURED PROJECT</span>
+            <div class="mobile-cortex-title-row">
+              <div class="mobile-cortex-icon">
+                <img src="https://api.iconify.design/lucide:audio-lines.svg?color=%238b5cf6" alt="Cortex" width="22" height="22">
+              </div>
+              <div>
+                <h3 class="mobile-cortex-name">Cortex</h3>
+                <p class="mobile-cortex-subtitle">AI Voice Assistant</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Image Carousel -->
+          <div class="mobile-cortex-carousel" id="mobile-cortex-carousel">
+            <div class="mobile-cortex-track" id="mobile-cortex-track">
+              <img src="Projects/Cortex/Main_GUI.png" alt="Cortex Main GUI" loading="lazy">
+              <img src="Projects/Cortex/Control_Center.png" alt="Cortex Control Center" loading="lazy">
+              <img src="Projects/Cortex/Neural_Sync.png" alt="Cortex Neural Sync" loading="lazy">
+              <img src="Projects/Cortex/Idle_State.png" alt="Cortex Idle State" loading="lazy">
+              <img src="Projects/Cortex/Listening_State.png" alt="Cortex Listening" loading="lazy">
+              <img src="Projects/Cortex/Speaking_State.png" alt="Cortex Speaking" loading="lazy">
+              <img src="Projects/Cortex/Thinking_State.png" alt="Cortex Thinking" loading="lazy">
+              <img src="Projects/Cortex/Processing_State.png" alt="Cortex Processing" loading="lazy">
+              <img src="Projects/Cortex/Cortex_hub.png" alt="Cortex Hub" loading="lazy">
+              <img src="Projects/Cortex/Knowledge_Hub.png" alt="Knowledge Hub" loading="lazy">
+            </div>
+            <button class="mobile-cortex-nav mobile-cortex-prev" id="mobile-cortex-prev" aria-label="Previous">❮</button>
+            <button class="mobile-cortex-nav mobile-cortex-next" id="mobile-cortex-next" aria-label="Next">❯</button>
+            <div class="mobile-cortex-counter" id="mobile-cortex-counter">1 / 10</div>
+          </div>
+
+          <!-- Info Body -->
+          <div class="mobile-cortex-body">
+            <div class="mobile-cortex-highlights">
+              <div class="mobile-cortex-hl">
+                <span class="mobile-hl-icon">🎙️</span>
+                <div>
+                  <strong>100% Offline</strong>
+                  <p>No external APIs — runs fully on-device</p>
+                </div>
+              </div>
+              <div class="mobile-cortex-hl">
+                <span class="mobile-hl-icon">🧠</span>
+                <div>
+                  <strong>Custom NLU Engine</strong>
+                  <p>JSON-trained intent classification model</p>
+                </div>
+              </div>
+              <div class="mobile-cortex-hl">
+                <span class="mobile-hl-icon">⚡</span>
+                <div>
+                  <strong>Neural Sync</strong>
+                  <p>Mini n8n-style voice-driven automation</p>
+                </div>
+              </div>
+              <div class="mobile-cortex-hl">
+                <span class="mobile-hl-icon">👥</span>
+                <div>
+                  <strong>Team Leader</strong>
+                  <p>Final year project — led the team</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="mobile-cortex-desc">
+              Offline-first voice assistant with real-time speech interruption, Knowledge Graph GUI, and a custom NLU engine. Features a repositionable on-screen status window, a Control Center for settings, and Neural Sync automation.
+            </p>
+
+            <div class="mobile-cortex-tags">
+              <span>Python</span>
+              <span>Faster-Whisper</span>
+              <span>NLU</span>
+              <span>NLP</span>
+              <span>TTS</span>
+            </div>
+
+            <a href="https://github.com/PrasannaV569/Cortex" class="mobile-cortex-github-btn" target="_blank">
+              <img src="https://api.iconify.design/lucide:github.svg?color=%23ffffff" alt="GitHub" width="16">
+              View on GitHub
+            </a>
+          </div>
+        </div><!-- end .mobile-cortex -->
 
         <!-- Remaining Projects Grid -->
         <div class="projects-grid-v3">
@@ -1149,6 +1274,9 @@
         <p class="section-body text-center mt-3" style="margin-bottom:3rem;max-width:680px;margin-left:auto;margin-right:auto;">
           Two real-world analytical projects built end-to-end — from raw data to business insight. Always expanding with more on the way.
         </p>
+
+        <!-- DESKTOP DATA ANALYSIS (hidden on mobile) -->
+        <div class="desktop-data-analysis">
 
         <!-- ── PROJECT 1: MySQL Banking Engine ── -->
         <div class="da-card da-card--sql">
@@ -1410,6 +1538,140 @@
             </div>
           </div>
         </div>
+
+        </div><!-- end .desktop-data-analysis -->
+
+        <!-- MOBILE DATA ANALYSIS (shown only on mobile) -->
+        <div class="mobile-data-analysis">
+
+          <!-- Card 1: Smart Banking Engine -->
+          <div class="mobile-da-card mobile-da-sql">
+            <div class="mobile-da-card-top">
+              <div class="mobile-da-icon-wrap">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" width="26">
+              </div>
+              <div>
+                <span class="mobile-da-badge mobile-da-badge-sql">MySQL · Database Engineering</span>
+                <h3 class="mobile-da-title">Smart Banking Engine</h3>
+                <p class="mobile-da-subtitle">Automated Financial Ledger &amp; Fraud Prevention</p>
+              </div>
+            </div>
+
+            <p class="mobile-da-desc">
+              A fully structured banking database built in MySQL with a 3-table relational schema (Customers, Accounts, Transactions). Features two production-grade triggers: one for overdraft protection and one for geo-velocity fraud detection.
+            </p>
+
+            <!-- KPI Chips -->
+            <div class="mobile-da-kpis">
+              <div class="mobile-da-kpi">
+                <span class="mobile-da-kpi-num">50</span>
+                <span class="mobile-da-kpi-label">Customers</span>
+              </div>
+              <div class="mobile-da-kpi">
+                <span class="mobile-da-kpi-num">2</span>
+                <span class="mobile-da-kpi-label">Triggers</span>
+              </div>
+              <div class="mobile-da-kpi">
+                <span class="mobile-da-kpi-num">1</span>
+                <span class="mobile-da-kpi-label">Window Fn</span>
+              </div>
+            </div>
+
+            <!-- Compact Fraud Sim -->
+            <div class="mobile-da-sim">
+              <div class="mobile-da-sim-header">
+                <span>🔐 Live Fraud Simulator</span>
+                <button class="mobile-da-sim-btn" id="mobile-da-sim-run">▶ Run</button>
+              </div>
+              <div class="mobile-da-sim-feed">
+                <div class="mobile-da-sim-row" id="mobile-da-sim-t1">
+                  <span class="mobile-da-sim-dot idle" id="mobile-da-dot-1"></span>
+                  <span class="mobile-da-sim-loc">Delhi ATM · 12:00 PM</span>
+                  <span class="mobile-da-sim-status" id="mobile-da-status-1">Waiting...</span>
+                </div>
+                <div class="mobile-da-sim-row" id="mobile-da-sim-t2">
+                  <span class="mobile-da-sim-dot idle" id="mobile-da-dot-2"></span>
+                  <span class="mobile-da-sim-loc">New York · 12:03 PM</span>
+                  <span class="mobile-da-sim-status" id="mobile-da-status-2">Waiting...</span>
+                </div>
+                <p class="mobile-da-sim-msg" id="mobile-da-sim-msg"></p>
+              </div>
+            </div>
+
+            <div class="mobile-da-tags">
+              <span>MySQL</span><span>Triggers</span><span>Window Functions</span><span>Risk Analytics</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Power BI Dashboard -->
+          <div class="mobile-da-card mobile-da-pbi">
+            <div class="mobile-da-card-top">
+              <div class="mobile-da-icon-wrap mobile-da-icon-pbi">
+                <img src="https://api.iconify.design/logos:microsoft-power-bi.svg" alt="Power BI" width="26">
+              </div>
+              <div>
+                <span class="mobile-da-badge mobile-da-badge-pbi">Power BI · Business Intelligence</span>
+                <h3 class="mobile-da-title">Global AI Workforce &amp; Salary Dashboard</h3>
+                <p class="mobile-da-subtitle">2025–2026 · 3-Page Interactive Report</p>
+              </div>
+            </div>
+
+            <p class="mobile-da-desc">
+              Enterprise-grade 3-page Power BI report tracking global AI hiring, compensation benchmarks, and market tiers. Built on a Star Schema with M:M skill bridge table, Power Query ETL, and Field Parameters.
+            </p>
+
+            <!-- Page Switcher -->
+            <div class="mobile-pbi-tabs">
+              <button class="mobile-pbi-tab active" data-page="1" id="mobile-pbi-tab-1">📍 Overview</button>
+              <button class="mobile-pbi-tab" data-page="2" id="mobile-pbi-tab-2">💰 Compensation</button>
+              <button class="mobile-pbi-tab" data-page="3" id="mobile-pbi-tab-3">📊 Tiers</button>
+            </div>
+
+            <!-- Page Images -->
+            <div class="mobile-pbi-viewer">
+              <div class="mobile-pbi-page active" id="mobile-pbi-page-1">
+                <img src="PowerBi/Page_1.png" alt="Page 1 - Global Market Overview" class="mobile-pbi-img" loading="lazy">
+                <p class="mobile-pbi-caption">Geographic map of global hiring density + industry velocity bar chart.</p>
+              </div>
+              <div class="mobile-pbi-page" id="mobile-pbi-page-2" style="display:none;">
+                <img src="PowerBi/Page_2.png" alt="Page 2 - Compensation Simulator" class="mobile-pbi-img" loading="lazy">
+                <p class="mobile-pbi-caption">Sensitivity slicer with salary variance by experience tier + skill premium matrix.</p>
+              </div>
+              <div class="mobile-pbi-page" id="mobile-pbi-page-3" style="display:none;">
+                <img src="PowerBi/Page_3.png" alt="Page 3 - Market Tiers" class="mobile-pbi-img" loading="lazy">
+                <p class="mobile-pbi-caption">Field Parameters for dynamic axis switching across 5 dimensions.</p>
+              </div>
+            </div>
+
+            <!-- Technical Highlights -->
+            <div class="mobile-da-highlights">
+              <div class="mobile-da-hl-chip"><span>⭐</span><strong>Star Schema</strong></div>
+              <div class="mobile-da-hl-chip"><span>🔀</span><strong>M:M Bridge</strong></div>
+              <div class="mobile-da-hl-chip"><span>📊</span><strong>Field Params</strong></div>
+              <div class="mobile-da-hl-chip"><span>🧹</span><strong>Power Query ETL</strong></div>
+            </div>
+
+            <div class="mobile-da-tags mobile-da-tags-amber">
+              <span>Power BI</span><span>DAX</span><span>Power Query</span><span>Star Schema</span><span>ETL</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Coming Soon -->
+          <div class="mobile-da-card mobile-da-coming-soon">
+            <div class="mobile-da-cs-content">
+              <span class="mobile-da-cs-badge">
+                <span class="mobile-da-cs-pulse"></span>
+                IN PROGRESS
+              </span>
+              <h3 class="mobile-da-cs-title">Next Analysis Project</h3>
+              <p class="mobile-da-cs-desc">Exploring more datasets — something new is on the way. Stay tuned.</p>
+              <div class="mobile-da-tags">
+                <span>Revealing Soon</span><span>TBD</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- end .mobile-data-analysis -->
 
 
       </div>

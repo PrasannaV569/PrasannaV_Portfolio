@@ -540,3 +540,164 @@ document.querySelectorAll('.project-image-wrapper').forEach(wrapper => {
     });
   });
 })();
+
+
+// ─────────────────────────────────────────────────────────────
+// 14. MOBILE TOP NAV — Active link sync
+// ─────────────────────────────────────────────────────────────
+(function initMobileNav() {
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  if (!mobileNavLinks.length) return;
+
+  function setMobileActive(targetId) {
+    mobileNavLinks.forEach(link => {
+      link.classList.toggle('active', link.dataset.section === targetId);
+    });
+
+    // Auto-scroll the active link into view in the scroll area
+    const activeLink = document.querySelector(`.mobile-nav-link[data-section="${targetId}"]`);
+    if (activeLink) {
+      activeLink.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }
+
+  // Wire mobile nav links to the existing switchSection function
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = link.dataset.section;
+      if (document.getElementById(targetId)) {
+        switchSection(targetId);
+        setMobileActive(targetId);
+        history.pushState(null, null, `#${targetId}`);
+      }
+    });
+  });
+
+  // Patch switchSection to keep mobile nav in sync
+  const originalSwitch = switchSection;
+  window.switchSection = function(targetId) {
+    originalSwitch(targetId);
+    setMobileActive(targetId);
+  };
+
+  // Set initial state
+  const initHash = window.location.hash.substring(1);
+  const validSections = Array.from(document.querySelectorAll('.section')).map(s => s.id);
+  setMobileActive(validSections.includes(initHash) ? initHash : 'home');
+})();
+
+
+// ─────────────────────────────────────────────────────────────
+// 15. MOBILE CORTEX CAROUSEL
+// ─────────────────────────────────────────────────────────────
+(function initMobileCortexCarousel() {
+  const track   = document.getElementById('mobile-cortex-track');
+  const prevBtn = document.getElementById('mobile-cortex-prev');
+  const nextBtn = document.getElementById('mobile-cortex-next');
+  const counter = document.getElementById('mobile-cortex-counter');
+
+  if (!track || !prevBtn || !nextBtn) return;
+
+  const images = track.querySelectorAll('img');
+  const TOTAL  = images.length;
+  let current  = 0;
+
+  function goTo(index) {
+    if (index < 0) index = TOTAL - 1;
+    if (index >= TOTAL) index = 0;
+    current = index;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    if (counter) counter.textContent = `${current + 1} / ${TOTAL}`;
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  track.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+  });
+
+  goTo(0);
+})();
+
+
+// ─────────────────────────────────────────────────────────────
+// 16. MOBILE FRAUD SIMULATOR
+// ─────────────────────────────────────────────────────────────
+(function initMobileFraudSimulator() {
+  const runBtn  = document.getElementById('mobile-da-sim-run');
+  const t1      = document.getElementById('mobile-da-sim-t1');
+  const t2      = document.getElementById('mobile-da-sim-t2');
+  const dot1    = document.getElementById('mobile-da-dot-1');
+  const dot2    = document.getElementById('mobile-da-dot-2');
+  const status1 = document.getElementById('mobile-da-status-1');
+  const status2 = document.getElementById('mobile-da-status-2');
+  const msg     = document.getElementById('mobile-da-sim-msg');
+
+  if (!runBtn || !t1 || !t2) return;
+
+  function resetMobileSim() {
+    [t1, t2].forEach(row => row.className = 'mobile-da-sim-row');
+    dot1.className = 'mobile-da-sim-dot idle';
+    dot2.className = 'mobile-da-sim-dot idle';
+    status1.textContent = 'Waiting...';
+    status2.textContent = 'Waiting...';
+    msg.textContent = '';
+    runBtn.disabled = false;
+    runBtn.textContent = '▶ Run';
+  }
+
+  function runMobileSim() {
+    resetMobileSim();
+    runBtn.disabled = true;
+    runBtn.textContent = '⏳';
+
+    setTimeout(() => {
+      t1.className = 'mobile-da-sim-row approved';
+      dot1.className = 'mobile-da-sim-dot ok';
+      status1.textContent = '✓ APPROVED';
+    }, 800);
+
+    setTimeout(() => {
+      t2.className = 'mobile-da-sim-row blocked';
+      dot2.className = 'mobile-da-sim-dot bad';
+      status2.textContent = '🚨 BLOCKED';
+    }, 1800);
+
+    setTimeout(() => {
+      msg.textContent = '⚡ Impossible velocity — Trigger fired!';
+      runBtn.disabled = false;
+      runBtn.textContent = '↺ Re-run';
+    }, 2400);
+  }
+
+  runBtn.addEventListener('click', runMobileSim);
+})();
+
+
+// ─────────────────────────────────────────────────────────────
+// 17. MOBILE POWER BI TAB SWITCHER
+// ─────────────────────────────────────────────────────────────
+(function initMobilePBITabs() {
+  const tabs  = document.querySelectorAll('.mobile-pbi-tab');
+  const pages = document.querySelectorAll('.mobile-pbi-page');
+
+  if (!tabs.length) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.page;
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      pages.forEach(p => {
+        p.style.display = (p.id === `mobile-pbi-page-${target}`) ? '' : 'none';
+      });
+    });
+  });
+})();
+
