@@ -96,6 +96,65 @@ const sectionIdsArray = Array.from(sections).map(s => s.id);
 const isValidHash = sectionIdsArray.includes(initialHash);
 switchSection(isValidHash ? initialHash : 'home');
 
+// Listen to popstate event to handle back/forward navigation
+window.addEventListener('popstate', () => {
+  const currentHash = window.location.hash.substring(1);
+  const isValid = sectionIdsArray.includes(currentHash);
+  switchSection(isValid ? currentHash : 'home');
+});
+
+// Listen to Backspace key press to navigate to the previous section/panel
+document.addEventListener('keydown', (e) => {
+  // Ignore if the user is typing in an input, textarea, or editing content
+  const activeEl = document.activeElement;
+  if (activeEl && (
+    activeEl.tagName === 'INPUT' ||
+    activeEl.tagName === 'TEXTAREA' ||
+    activeEl.isContentEditable
+  )) {
+    return;
+  }
+
+  // Handle Backspace navigation
+  if (e.key === 'Backspace') {
+    // Check if a lightbox/modal is active first. If so, close it rather than changing panels.
+    const certLightbox = document.getElementById('cert-lightbox');
+    const imageLightbox = document.getElementById('image-lightbox');
+    const isCertLightboxActive = certLightbox && certLightbox.classList.contains('active');
+    const isImageLightboxActive = imageLightbox && imageLightbox.classList.contains('active');
+
+    if (isCertLightboxActive || isImageLightboxActive) {
+      e.preventDefault();
+      if (isCertLightboxActive) {
+        certLightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+      if (isImageLightboxActive) {
+        imageLightbox.classList.remove('active');
+      }
+      return;
+    }
+
+    e.preventDefault();
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      // Fallback: if there's no history, switch to the previous section in order
+      const activeSection = document.querySelector('.active-section');
+      if (activeSection) {
+        const activeId = activeSection.id;
+        const currentIndex = sectionIdsArray.indexOf(activeId);
+        if (currentIndex > 0) {
+          const prevId = sectionIdsArray[currentIndex - 1];
+          switchSection(prevId);
+          history.pushState(null, null, `#${prevId}`);
+        }
+      }
+    }
+  }
+});
+
+
 // ─────────────────────────────────────────────────────────────
 // 3. NAV LINK & CTA CLICKS
 // ─────────────────────────────────────────────────────────────
